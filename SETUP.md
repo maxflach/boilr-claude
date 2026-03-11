@@ -1,29 +1,32 @@
 # Setup
 
-You are helping the user install the Claude Project System. Follow these steps precisely, in order. Do not skip any step.
+You are helping the user install the Claude Project System skills. Follow these steps precisely, in order. Do not skip any step.
 
 ---
 
 ## What you are installing
 
-The `/initproject` skill — a global Claude Code skill that scaffolds a full-stack TypeScript project in any empty directory. Once installed, the user can run `/initproject` anywhere.
+Two global Claude Code skills:
+
+1. **`/initproject`** — scaffolds a new full-stack TypeScript project in any empty directory
+2. **`/setup-claude`** — adds Claude Code agents, CLAUDE.md, and the `/newfeature` skill to an existing project
 
 ---
 
-## Step 1: Create the skill directory
+## Step 1: Create the skill directories
 
 ```bash
 mkdir -p ~/.claude/skills/initproject
+mkdir -p ~/.claude/skills/setup-claude
 ```
 
 ---
 
-## Step 2: Copy the skill file
-
-The skill file is in this repo at `skills/initproject/SKILL.md`. Copy it to the global Claude skills directory:
+## Step 2: Copy the skill files
 
 ```bash
 cp skills/initproject/SKILL.md ~/.claude/skills/initproject/SKILL.md
+cp skills/setup-claude/SKILL.md ~/.claude/skills/setup-claude/SKILL.md
 ```
 
 ---
@@ -31,10 +34,10 @@ cp skills/initproject/SKILL.md ~/.claude/skills/initproject/SKILL.md
 ## Step 3: Verify
 
 ```bash
-ls ~/.claude/skills/initproject/SKILL.md
+ls ~/.claude/skills/initproject/SKILL.md ~/.claude/skills/setup-claude/SKILL.md
 ```
 
-If the file exists, the install succeeded.
+If both files exist, the install succeeded.
 
 ---
 
@@ -43,23 +46,28 @@ If the file exists, the install succeeded.
 Print this message:
 
 ```
-✅ Setup complete!
+Setup complete!
 
-The /initproject skill is now installed globally.
+Two skills are now installed globally:
+
+  /initproject    Scaffold a new project from scratch
+  /setup-claude   Add Claude agents + skills to an existing project
 
 To start a new project:
-  1. Create an empty directory:   mkdir ~/code/my-app && cd ~/code/my-app
-  2. Open Claude Code:            claude
-  3. Run:                         /initproject
+  1. mkdir ~/code/my-app && cd ~/code/my-app
+  2. claude
+  3. /initproject
 
-You will be asked what stack to use (Firebase or Node.js + React), the app name,
-and a few other questions. Each major phase pauses for your approval.
+To set up Claude in an existing project:
+  1. cd ~/code/existing-project
+  2. claude
+  3. /setup-claude
 
-Requirements before running /initproject:
+Requirements:
   - Node.js v20+
   - git
   - GitHub CLI (gh auth login)
-  - Firebase CLI (firebase login)
+  - Firebase CLI (firebase login) — only for Firebase stack projects
 ```
 
 ---

@@ -1,6 +1,9 @@
 # boilr-claude
 
-One-command full-stack project scaffolding with Claude Code. Spin up a production-ready TypeScript project in minutes, then build features with a team of specialized AI agents.
+Full-stack project scaffolding and Claude Code agent setup. Two skills:
+
+- **`/initproject`** — scaffold a new TypeScript project from scratch with agents, skills, and CI/CD
+- **`/setup-claude`** — add Claude Code agents and skills to an existing project
 
 ---
 
@@ -16,7 +19,7 @@ Then in Claude, just say:
 
 > **"read SETUP.md"**
 
-Claude will install the `/initproject` skill globally and tell you when you're ready.
+Claude will install both skills globally and tell you when you're ready.
 
 ---
 
@@ -28,19 +31,35 @@ claude
 /initproject
 ```
 
-That's it. Claude walks you through the setup, scaffolds the project, creates the GitHub repo, and sets up the agent team.
+Claude walks you through the setup, scaffolds the project, creates the GitHub repo, and sets up the agent team.
+
+---
+
+## Set up Claude in an existing project
+
+```bash
+cd ~/code/existing-project
+claude
+/setup-claude
+```
+
+Claude analyzes the codebase, detects the stack, and creates:
+
+- `CLAUDE.md` — project conventions and rules
+- `.claude/agents/` — specialized agent team tailored to the project
+- `.claude/skills/newfeature/` — feature development workflow
+
+Works with any stack — React, Next.js, Vue, Svelte, Express, Django, FastAPI, Firebase, and more.
 
 ---
 
 ## Requirements
 
-Before running `/initproject`, make sure you have:
-
 - [Claude Code](https://claude.ai/claude-code) — installed and authenticated (`claude` in terminal)
 - **Node.js** v20+ and **npm**
 - **git**
 - **GitHub CLI** — `brew install gh` then `gh auth login`
-- **Firebase CLI** — `npm install -g firebase-tools` then `firebase login`
+- **Firebase CLI** — `npm install -g firebase-tools` then `firebase login` (only for Firebase projects)
 
 ---
 
@@ -62,7 +81,21 @@ Each major phase pauses for your approval. At the end you'll have:
 
 ---
 
-## Stack Options
+## What `/setup-claude` does
+
+You'll see:
+1. **Project analysis** — Claude scans the codebase and shows what it detected (stack, framework, database, etc.)
+2. **Coding rules** — you specify any rules to enforce (e.g., "no useEffect for data fetching")
+3. **Team selection** — pick which agent roles to create (full team, frontend-only, backend-only, or custom)
+4. **CLAUDE.md** — project conventions generated from the codebase analysis
+5. **Agent team** — specialized agents with rules tailored to the detected stack
+6. **Newfeature skill** — development workflow using the created agents
+
+Each phase pauses for review. Everything is tailored to the actual project — no generic boilerplate.
+
+---
+
+## Stack Options (initproject)
 
 ### Firebase Stack
 Firestore + Firebase Functions + Firebase Auth + Firebase Hosting
@@ -108,7 +141,9 @@ claude
 | Backend Engineer | Sonnet | API routes, business logic |
 | Database Engineer | Opus | Schema changes, migrations, queries |
 | DevOps | Sonnet | Config, deployment, CI/CD |
-| Code Reviewer | Opus | Reviews all changes, blocks `useEffect` abuse |
+| Code Reviewer | Opus | Reviews all changes, enforces hard-block rules |
+
+When using `/setup-claude`, the team is adapted to the project — a frontend-only project gets Frontend + PM + Reviewer, a backend-only project gets Backend + DB + PM + Reviewer, etc.
 
 ---
 
@@ -145,12 +180,14 @@ Use a React Query hook (server data) or Jotai atom (UI state) instead.
 ## What's in this repo
 
 ```
-├── SETUP.md                     ← Claude reads this to install the skill
+├── SETUP.md                     ← Claude reads this to install the skills
 ├── README.md
 ├── claude-project-system.md     ← Full documentation
 ├── skills/
-│   └── initproject/
-│       └── SKILL.md             ← The global initproject skill
+│   ├── initproject/
+│   │   └── SKILL.md             ← Scaffold new projects
+│   └── setup-claude/
+│       └── SKILL.md             ← Set up Claude in existing projects
 └── boilrapi/                    ← Express API framework (Node.js stack only)
     └── src/
         ├── api/index.ts         ← BoilrApi class
