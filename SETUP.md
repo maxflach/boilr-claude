@@ -6,10 +6,11 @@ You are helping the user install the Claude Project System skills. Follow these 
 
 ## What you are installing
 
-Two global Claude Code skills:
+Three global Claude Code skills:
 
 1. **`/initproject`** — scaffolds a new full-stack TypeScript project in any empty directory
 2. **`/setup-claude`** — adds Claude Code agents, CLAUDE.md, and the `/newfeature` skill to an existing project
+3. **`/boilr-version`** — shows installed versions and checks for updates
 
 ---
 
@@ -18,6 +19,7 @@ Two global Claude Code skills:
 ```bash
 mkdir -p ~/.claude/skills/initproject
 mkdir -p ~/.claude/skills/setup-claude
+mkdir -p ~/.claude/skills/boilr-version
 ```
 
 ---
@@ -27,6 +29,7 @@ mkdir -p ~/.claude/skills/setup-claude
 ```bash
 cp skills/initproject/SKILL.md ~/.claude/skills/initproject/SKILL.md
 cp skills/setup-claude/SKILL.md ~/.claude/skills/setup-claude/SKILL.md
+cp skills/boilr-version/SKILL.md ~/.claude/skills/boilr-version/SKILL.md
 ```
 
 ---
@@ -34,10 +37,10 @@ cp skills/setup-claude/SKILL.md ~/.claude/skills/setup-claude/SKILL.md
 ## Step 3: Verify
 
 ```bash
-ls ~/.claude/skills/initproject/SKILL.md ~/.claude/skills/setup-claude/SKILL.md
+ls ~/.claude/skills/initproject/SKILL.md ~/.claude/skills/setup-claude/SKILL.md ~/.claude/skills/boilr-version/SKILL.md
 ```
 
-If both files exist, the install succeeded.
+If all three files exist, the install succeeded.
 
 ---
 
@@ -48,10 +51,11 @@ Print this message:
 ```
 Setup complete!
 
-Two skills are now installed globally:
+Three skills are now installed globally:
 
-  /initproject    Scaffold a new project from scratch
-  /setup-claude   Add Claude agents + skills to an existing project
+  /initproject      Scaffold a new project from scratch
+  /setup-claude     Add Claude agents + skills to an existing project
+  /boilr-version    Check installed versions and updates
 
 To start a new project:
   1. mkdir ~/code/my-app && cd ~/code/my-app

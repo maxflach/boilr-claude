@@ -4,6 +4,7 @@ Full-stack project scaffolding and Claude Code agent setup. Two skills:
 
 - **`/initproject`** — scaffold a new TypeScript project from scratch with agents, skills, and CI/CD
 - **`/setup-claude`** — add Claude Code agents and skills to an existing project
+- **`/boilr-version`** — check installed versions and available updates
 
 ---
 
