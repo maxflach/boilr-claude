@@ -67,10 +67,11 @@ Works with any stack — React, Next.js, Vue, Svelte, Express, Django, FastAPI, 
 
 You'll be asked:
 1. **Stack** — Firebase (Firestore + Functions) or Node.js + React (PostgreSQL + Prisma + Express)
-2. **App name**
-3. **Multi-tenant?**
-4. **Auth provider** — Firebase Auth, JWT, or None
-5. **GitHub visibility** — private or public
+2. **What are you building?** — describe the app/product and why you're building it
+3. **App name**
+4. **Multi-tenant?**
+5. **Auth provider** — Firebase Auth, JWT, or None
+6. **GitHub visibility** — private or public
 
 Each major phase pauses for your approval. At the end you'll have:
 

@@ -43,6 +43,30 @@ Use `AskUserQuestion` (single question):
 
 Store the answer as `STACK` (either `firebase` or `nodejs`).
 
+Now ask the user what they're building. Use `AskUserQuestion` with two questions:
+
+**Question 1:**
+- Header: "Building"
+- Question: "What are you building? Describe the app or product in a sentence or two."
+- Options:
+  - "SaaS platform" — "A multi-user web app with subscriptions, dashboards, or team features"
+  - "Internal tool" — "An internal dashboard, admin panel, or operations tool for a team or company"
+  - "Consumer app" — "A public-facing product for end users (marketplace, social, content, etc.)"
+- Use `multiSelect: false`
+
+**Question 2:**
+- Header: "Purpose"
+- Question: "Why are you building this? What problem does it solve or what's the goal?"
+- Options:
+  - "New product" — "Building something new from scratch — a product idea or MVP"
+  - "Replace manual process" — "Automating something currently done manually or in spreadsheets"
+  - "Client project" — "Building this for a client or external stakeholder"
+- Use `multiSelect: false`
+
+Store: `PROJECT_VISION` (what they're building), `PROJECT_PURPOSE` (why).
+
+Users will often type their own answers via "Other" — that's expected and preferred since it gives more detail.
+
 ---
 
 ## Phase 3: Project Details
@@ -72,7 +96,7 @@ Use `AskUserQuestion` with multiple questions in one call:
 
 Store: `APP_NAME`, `MULTI_TENANT`, `AUTH_PROVIDER`.
 
-**Pause** — show summary of choices and ask "Ready to scaffold? This will create the project structure and install dependencies."
+**Pause** — show summary of all choices (including project vision and purpose) and ask "Ready to scaffold? This will create the project structure and install dependencies."
 
 Use `AskUserQuestion`:
 - Options: "Yes, scaffold it" / "No, let me reconsider"
@@ -1070,6 +1094,11 @@ Write `CLAUDE.md` (project-level conventions):
 ```markdown
 # <APP_NAME> — Project Conventions
 
+## Project
+
+**What:** <PROJECT_VISION>
+**Why:** <PROJECT_PURPOSE>
+
 ## Stack
 
 <!-- Firebase or Node.js + React — filled by initproject -->
@@ -1419,6 +1448,7 @@ Use `AskUserQuestion`:
 Invoke the `create-agents` skill logic directly (do not launch a subprocess — execute the agent generation steps inline):
 
 Since we already know the stack from Phase 2, pre-fill the architecture answers:
+- **Project:** use `PROJECT_VISION` and `PROJECT_PURPOSE` from Phase 2 — include these in every agent's system context so they understand what is being built and why
 - **Firebase stack** → Architecture: "Firebase", Database: "Firestore", Repo: "Monorepo", UI: "shadcn/ui"
 - **Node.js + React** → Architecture: "API + Generated Client", Database: "Prisma + PostgreSQL", Repo: "Monorepo", UI: "shadcn/ui". Frontend deploys to Firebase Hosting, API deploys to Firebase App Hosting (`apphosting.yaml` in `api/`)
 - Auth: use the `AUTH_PROVIDER` from Phase 3
@@ -1755,6 +1785,8 @@ Print a full summary of everything that was created:
 ```
 ✅ Project initialized: <APP_NAME>
 
+Project: <PROJECT_VISION>
+Purpose: <PROJECT_PURPOSE>
 Stack: <Firebase OR Node.js + React>
 Auth: <AUTH_PROVIDER>
 Multi-tenant: <MULTI_TENANT>
