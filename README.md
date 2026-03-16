@@ -11,17 +11,21 @@ Full-stack project scaffolding and Claude Code agent setup. Two skills:
 
 ## Install
 
+One command — no clone needed:
+
+```bash
+curl -s --create-dirs -o ~/.claude/skills/boilr-update/SKILL.md https://raw.githubusercontent.com/maxflach/boilr-claude/main/skills/boilr-update/SKILL.md && claude "/boilr-update"
+```
+
+This bootstraps the updater, which fetches and installs all skills from GitHub.
+
+### Alternative: clone and install
+
 ```bash
 git clone https://github.com/maxflach/boilr-claude.git
 cd boilr-claude
-claude
+claude "read SETUP.md"
 ```
-
-Then in Claude, just say:
-
-> **"read SETUP.md"**
-
-Claude will install both skills globally and tell you when you're ready.
 
 ---
 

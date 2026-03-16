@@ -17,6 +17,18 @@ Update all locally installed boilr-claude skills by fetching the latest versions
 
 ---
 
+## First-time install
+
+To install boilr-claude on a new machine, run this single command:
+
+```bash
+curl -s --create-dirs -o ~/.claude/skills/boilr-update/SKILL.md https://raw.githubusercontent.com/maxflach/boilr-claude/main/skills/boilr-update/SKILL.md && claude "/boilr-update"
+```
+
+This bootstraps the updater, which then fetches and installs all other skills automatically.
+
+---
+
 ## Step 1: Fetch latest skill files from GitHub
 
 Use `WebFetch` to download each skill from the public repo's main branch:
