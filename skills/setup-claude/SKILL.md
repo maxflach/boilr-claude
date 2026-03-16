@@ -6,9 +6,16 @@ argument-hint: ""
 
 # Setup Claude
 
+**Version:** 1.0.0
+
 Adds Claude Code's agent infrastructure to an existing project. Scans the codebase to understand the stack and structure, then generates a project-specific CLAUDE.md, a team of specialized agents, and a `/newfeature` development workflow skill.
 
 Execution mode: **pause at phase boundaries** — present a summary at the end of each major phase and wait for user approval before continuing.
+
+## Changelog
+
+### 1.0.0 — 2026-03-16
+- Initial release: codebase analysis, CLAUDE.md generation, agent team, newfeature skill
 
 ---
 

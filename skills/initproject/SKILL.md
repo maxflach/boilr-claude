@@ -6,9 +6,23 @@ argument-hint: ""
 
 # Init Project Skill
 
+**Version:** 1.2.0
+
 Scaffolds a new full-stack TypeScript project in the current working directory. Supports two stacks: **Firebase** (Firestore + Functions + Auth + Hosting) and **Node.js + React** (PostgreSQL + Prisma + Express + React). Always uses Vite + React + TailwindCSS v4 + React Query + Jotai + shadcn/ui on the frontend.
 
 Execution mode: **pause at phase boundaries** — present a summary at the end of each major phase and wait for user approval before continuing.
+
+## Changelog
+
+### 1.2.0 — 2026-03-16
+- Ask what the user is building and why after stack selection
+- Thread project vision into CLAUDE.md and agent team context
+
+### 1.1.0 — 2026-03-16
+- Add SETUP.md for Claude-driven install flow
+
+### 1.0.0 — 2026-03-16
+- Initial release: full project scaffolding with Firebase and Node.js stacks
 
 ---
 
