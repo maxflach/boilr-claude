@@ -6,11 +6,12 @@ You are helping the user install the Claude Project System skills. Follow these 
 
 ## What you are installing
 
-Three global Claude Code skills:
+Four global Claude Code skills:
 
 1. **`/initproject`** — scaffolds a new full-stack TypeScript project in any empty directory
 2. **`/setup-claude`** — adds Claude Code agents, CLAUDE.md, and the `/newfeature` skill to an existing project
 3. **`/boilr-version`** — shows installed versions and checks for updates
+4. **`/boilr-update`** — updates all skills to the latest version from GitHub
 
 ---
 
@@ -20,6 +21,7 @@ Three global Claude Code skills:
 mkdir -p ~/.claude/skills/initproject
 mkdir -p ~/.claude/skills/setup-claude
 mkdir -p ~/.claude/skills/boilr-version
+mkdir -p ~/.claude/skills/boilr-update
 ```
 
 ---
@@ -30,6 +32,7 @@ mkdir -p ~/.claude/skills/boilr-version
 cp skills/initproject/SKILL.md ~/.claude/skills/initproject/SKILL.md
 cp skills/setup-claude/SKILL.md ~/.claude/skills/setup-claude/SKILL.md
 cp skills/boilr-version/SKILL.md ~/.claude/skills/boilr-version/SKILL.md
+cp skills/boilr-update/SKILL.md ~/.claude/skills/boilr-update/SKILL.md
 ```
 
 ---
@@ -37,10 +40,10 @@ cp skills/boilr-version/SKILL.md ~/.claude/skills/boilr-version/SKILL.md
 ## Step 3: Verify
 
 ```bash
-ls ~/.claude/skills/initproject/SKILL.md ~/.claude/skills/setup-claude/SKILL.md ~/.claude/skills/boilr-version/SKILL.md
+ls ~/.claude/skills/initproject/SKILL.md ~/.claude/skills/setup-claude/SKILL.md ~/.claude/skills/boilr-version/SKILL.md ~/.claude/skills/boilr-update/SKILL.md
 ```
 
-If all three files exist, the install succeeded.
+If all four files exist, the install succeeded.
 
 ---
 
@@ -51,11 +54,12 @@ Print this message:
 ```
 Setup complete!
 
-Three skills are now installed globally:
+Four skills are now installed globally:
 
   /initproject      Scaffold a new project from scratch
   /setup-claude     Add Claude agents + skills to an existing project
   /boilr-version    Check installed versions and updates
+  /boilr-update     Update skills to the latest version
 
 To start a new project:
   1. mkdir ~/code/my-app && cd ~/code/my-app
