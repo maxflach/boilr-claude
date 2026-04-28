@@ -1,18 +1,22 @@
 ---
 name: initproject
-description: Scaffold a new full-stack project from scratch. Checks the directory is empty, asks for stack type and project details, scaffolds the project structure, installs dependencies, initializes git with a develop branch, creates a GitHub repo, generates the agent team, and writes the newfeature skill.
+description: Scaffold a new full-stack project from scratch. Captures a functional description (Linear ticket or prompt), checks the directory is empty, asks for stack type and project details, scaffolds the project structure, installs dependencies, initializes git with a develop branch, creates a GitHub repo, generates the agent team, and writes the newfeature skill.
 argument-hint: ""
 ---
 
 # Init Project Skill
 
-**Version:** 1.2.0
+**Version:** 1.3.0
 
 Scaffolds a new full-stack TypeScript project in the current working directory. Supports two stacks: **Firebase** (Firestore + Functions + Auth + Hosting) and **Node.js + React** (PostgreSQL + Prisma + Express + React). Always uses Vite + React + TailwindCSS v4 + React Query + Jotai + shadcn/ui on the frontend.
 
 Execution mode: **pause at phase boundaries** — present a summary at the end of each major phase and wait for user approval before continuing.
 
 ## Changelog
+
+### 1.3.0 — 2026-04-28
+- Add functional description step (Linear ticket or prompt) before categorical questions
+- Thread `BUILD_DESCRIPTION` through `CLAUDE.md` and every agent's context
 
 ### 1.2.0 — 2026-03-16
 - Ask what the user is building and why after stack selection
@@ -57,11 +61,37 @@ Use `AskUserQuestion` (single question):
 
 Store the answer as `STACK` (either `firebase` or `nodejs`).
 
-Now ask the user what they're building. Use `AskUserQuestion` with two questions:
+### Functional description
+
+Now capture a rich functional description of the app — what it does, key features, user flows. This grounds every downstream decision (CLAUDE.md, agent context, scaffolding choices) in the actual product, not just a category.
+
+Use `AskUserQuestion`:
+- Header: "Source"
+- Question: "How would you like to describe what we're building?"
+- Options:
+  - "Linear ticket" — "Paste a Linear ticket URL or ID; we'll pull the title + description"
+  - "Prompt" — "Describe the app's functionality in your own words"
+- Use `multiSelect: false`
+
+**If "Linear ticket":**
+1. Use `AskUserQuestion` (header: "Linear ticket", question: "Paste the Linear ticket URL or ID.", options: none — user types via Other) to get the ticket reference.
+2. Parse the workspace slug from the URL: `linear.app/<workspace>/issue/<TEAM-123>` → workspace = `<workspace>`, issue ID = `<TEAM-123>`.
+3. If only an issue ID was pasted (no URL), use `AskUserQuestion` (header: "Workspace", options: `fleetly` / `mdl` / `njuju`) to pick the workspace.
+4. Call `mcp__linear-<workspace>__get_issue` with the issue ID to fetch the title and description.
+5. Combine the result as `<title>\n\n<description>` and store it as `BUILD_DESCRIPTION`.
+6. Show the fetched ticket title + a short excerpt of the description back to the user and ask `AskUserQuestion` (header: "Confirm ticket", options: "Yes, that's the one" / "No, try a different ticket"). If "No", restart this step.
+
+**If "Prompt":**
+- Use `AskUserQuestion` (header: "Description", question: "What are we building? Describe the functionality, key features, and user flows.", options: none — user types via Other).
+- Store the typed answer as `BUILD_DESCRIPTION`.
+
+### Categorize the project
+
+Now categorize the project to inform the agent team's context. Use `AskUserQuestion` with two questions:
 
 **Question 1:**
 - Header: "Building"
-- Question: "What are you building? Describe the app or product in a sentence or two."
+- Question: "What category does this app fall into?"
 - Options:
   - "SaaS platform" — "A multi-user web app with subscriptions, dashboards, or team features"
   - "Internal tool" — "An internal dashboard, admin panel, or operations tool for a team or company"
@@ -77,7 +107,7 @@ Now ask the user what they're building. Use `AskUserQuestion` with two questions
   - "Client project" — "Building this for a client or external stakeholder"
 - Use `multiSelect: false`
 
-Store: `PROJECT_VISION` (what they're building), `PROJECT_PURPOSE` (why).
+Store: `PROJECT_VISION` (category), `PROJECT_PURPOSE` (why).
 
 Users will often type their own answers via "Other" — that's expected and preferred since it gives more detail.
 
@@ -110,7 +140,11 @@ Use `AskUserQuestion` with multiple questions in one call:
 
 Store: `APP_NAME`, `MULTI_TENANT`, `AUTH_PROVIDER`.
 
-**Pause** — show summary of all choices (including project vision and purpose) and ask "Ready to scaffold? This will create the project structure and install dependencies."
+**Pause** — show a summary of all choices and ask "Ready to scaffold? This will create the project structure and install dependencies." The summary must include:
+- `BUILD_DESCRIPTION` (what we're building)
+- `PROJECT_VISION` (category)
+- `PROJECT_PURPOSE` (why)
+- `STACK`, `APP_NAME`, `MULTI_TENANT`, `AUTH_PROVIDER`
 
 Use `AskUserQuestion`:
 - Options: "Yes, scaffold it" / "No, let me reconsider"
@@ -1110,7 +1144,8 @@ Write `CLAUDE.md` (project-level conventions):
 
 ## Project
 
-**What:** <PROJECT_VISION>
+**What we're building:** <BUILD_DESCRIPTION>
+**Category:** <PROJECT_VISION>
 **Why:** <PROJECT_PURPOSE>
 
 ## Stack
@@ -1462,7 +1497,7 @@ Use `AskUserQuestion`:
 Invoke the `create-agents` skill logic directly (do not launch a subprocess — execute the agent generation steps inline):
 
 Since we already know the stack from Phase 2, pre-fill the architecture answers:
-- **Project:** use `PROJECT_VISION` and `PROJECT_PURPOSE` from Phase 2 — include these in every agent's system context so they understand what is being built and why
+- **Project:** use `BUILD_DESCRIPTION`, `PROJECT_VISION`, and `PROJECT_PURPOSE` from Phase 2 — include all three in every agent's system context. `BUILD_DESCRIPTION` is the most important: it describes the actual functionality the team is building, and agents should lead with it when reasoning about features. `PROJECT_VISION` provides the category and `PROJECT_PURPOSE` the motivation.
 - **Firebase stack** → Architecture: "Firebase", Database: "Firestore", Repo: "Monorepo", UI: "shadcn/ui"
 - **Node.js + React** → Architecture: "API + Generated Client", Database: "Prisma + PostgreSQL", Repo: "Monorepo", UI: "shadcn/ui". Frontend deploys to Firebase Hosting, API deploys to Firebase App Hosting (`apphosting.yaml` in `api/`)
 - Auth: use the `AUTH_PROVIDER` from Phase 3
@@ -1799,7 +1834,8 @@ Print a full summary of everything that was created:
 ```
 ✅ Project initialized: <APP_NAME>
 
-Project: <PROJECT_VISION>
+What we're building: <BUILD_DESCRIPTION>
+Category: <PROJECT_VISION>
 Purpose: <PROJECT_PURPOSE>
 Stack: <Firebase OR Node.js + React>
 Auth: <AUTH_PROVIDER>

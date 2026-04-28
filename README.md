@@ -73,11 +73,12 @@ Works with any stack — React, Next.js, Vue, Svelte, Express, Django, FastAPI, 
 
 You'll be asked:
 1. **Stack** — Firebase (Firestore + Functions) or Node.js + React (PostgreSQL + Prisma + Express)
-2. **What are you building?** — describe the app/product and why you're building it
-3. **App name**
-4. **Multi-tenant?**
-5. **Auth provider** — Firebase Auth, JWT, or None
-6. **GitHub visibility** — private or public
+2. **What are we building?** — paste a Linear ticket (auto-fetched via the Linear MCP) or describe the app's functionality in your own words. This rich description is threaded into `CLAUDE.md` and every agent's context.
+3. **Category & purpose** — SaaS / Internal tool / Consumer app, and why you're building it
+4. **App name**
+5. **Multi-tenant?**
+6. **Auth provider** — Firebase Auth, JWT, or None
+7. **GitHub visibility** — private or public
 
 Each major phase pauses for your approval. At the end you'll have:
 
