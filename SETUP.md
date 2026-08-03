@@ -8,7 +8,7 @@ You are helping the user install the Claude Project System skills. Follow these 
 
 Four global Claude Code skills:
 
-1. **`/initproject`** — scaffolds a new full-stack TypeScript project in any empty directory
+1. **`/initproject`** — scaffolds a new full-stack project in any empty directory
 2. **`/setup-claude`** — adds Claude Code agents, CLAUDE.md, and the `/newfeature` skill to an existing project
 3. **`/boilr-version`** — shows installed versions and checks for updates
 4. **`/boilr-update`** — updates all skills to the latest version from GitHub
@@ -72,16 +72,19 @@ To set up Claude in an existing project:
   3. /setup-claude
 
 Requirements:
-  - Node.js v20+
+  - Node.js v20+ and pnpm
   - git
   - GitHub CLI (gh auth login)
   - Firebase CLI (firebase login) — only for Firebase stack projects
+  - JDK 21+                      — only for Firestore rules tests
+  - Docker                       — only for the pgvector stacks
+  - Go 1.23+ and golang-migrate  — only for the Go + pgvector stack
 ```
 
 ---
 
 ## Notes
 
-- The `boilrapi/` folder in this repo is the Express API framework used by the Node.js + React stack. The initproject skill embeds those files and copies them into new projects automatically — you do not need to touch that folder.
-- The Firebase stack (Firestore + Functions) does not use BoilrAPI at all.
+- The `boilrapi/` folder in this repo is the Express API framework used by the Node.js + React and Node + pgvector stacks. The initproject skill embeds those files and copies them into new projects automatically — you do not need to touch that folder.
+- The Firebase stack (Firestore + Functions) does not use BoilrAPI at all. Neither does the Go + pgvector stack, which has its own `cmd/` + `internal/` layout.
 - Full documentation is in `claude-project-system.md`.
